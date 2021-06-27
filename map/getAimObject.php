@@ -52,7 +52,7 @@ function getAimObject($scheme, $id)
     if ($scheme == 1) {
         $result = mysqli_query(
             $dbconn,
-            "select `id`, `name`, `description`, (select `name` from directions where monuments.`direction`=directions.`id`) as `direction`, `lat`, `long` from monuments where `id`=${id};"
+            "select `id`, `name`, `description`, (select `name` from directions where monuments.`direction`=directions.`id_view` and 1=directions.`id_scheme`) as `direction`, `lat`, `long` from monuments where `id`=${id};"
         ) or die('Ошибка выполнения запроса к БД');
 
         return requiredFormatMonument($result);
@@ -61,7 +61,7 @@ function getAimObject($scheme, $id)
     if ($scheme == 2) {
         $result = mysqli_query(
             $dbconn,
-            "select `id`, `name`, `description`, (select `name` from directions where tables.`direction`=directions.`id`) as `direction`, `lat`, `long` from tables where `id`=${id};"
+            "select `id`, `name`, `description`, (select `name` from directions where tables.`direction`=directions.`id_view` and 2=directions.`id_scheme`) as `direction`, `lat`, `long` from tables where `id`=${id};"
         ) or die('Ошибка выполнения запроса к БД');
 
         return requiredFormatTable($result);
@@ -71,7 +71,7 @@ function getAimObject($scheme, $id)
     if ($scheme == 3) {
         $result = mysqli_query(
             $dbconn,
-            "select `id`, `old_name`, `new_name`, `description`, (select `name` from directions where streets.`direction`=directions.`id`) as `direction`, `start_lat`, `start_long`, `end_lat`, `end_long` from streets where `id`=${id};"
+            "select `id`, `old_name`, `new_name`, `description`, (select `name` from directions where streets.`direction`=directions.`id_view` and 3=directions.`id_scheme`) as `direction`, `start_lat`, `start_long`, `end_lat`, `end_long` from streets where `id`=${id};"
         ) or die('Ошибка выполнения запроса к БД');
 
         return requiredFormatStreet($result);
