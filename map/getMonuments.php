@@ -34,7 +34,7 @@ function getMonuments($name)
     $USER = null;
     $PASSWORD = null;
 
-    $result = mysqli_query($dbconn, "select `id`, `name`, `description`, (select `name` from directions where monuments.`direction`=directions.`id`) as `direction`, (select round(avg(`rating`), 2) from ratings where ratings.`id_scheme`=1 and ratings.`id_object`=monuments.`id`) as `rating`, `lat`, `long` from monuments where `name` Like '%$name%';") or die('Ошибка выполнения запроса к БД');
+    $result = mysqli_query($dbconn, "select `id`, `name`, `description`, (select `name` from directions where monuments.`direction`=directions.`id_view` and 1=directions.`id_scheme`) as `direction`, (select round(avg(`rating`), 2) from ratings where ratings.`id_scheme`=1 and ratings.`id_object`=monuments.`id`) as `rating`, `lat`, `long` from monuments where `name` Like '%$name%';") or die('Ошибка выполнения запроса к БД');
 
     $dbconn = null;
 
