@@ -1,1 +1,1 @@
-Snapshots of database here
+Database snapshots that were taken during a breaking change
