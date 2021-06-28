@@ -47,6 +47,25 @@ function setDataToTables($points)
                 $id->ratings++;
                 mysqli_query($dbconn, "insert into ratings values({$id->ratings}, {$id->monuments}, 1, '{$ratingObj->ip}', {$ratingObj->rating});");
             }
+
+            foreach ($monument->images as $key => $image) {
+                if (substr($image, 0, 27) !== 'http://localhost/map/media/') {
+                    $id->pictures++;
+                    $mainFileFolder = '../map/media/';
+                    $fileDir = '1-' . $id->monuments . '_';
+
+                    date_default_timezone_set('Europe/Minsk');
+                    $fileName = date('m_d_Y-h:i:s_a', time()) . '_' . md5($id->pictures + $key)  . '.jpg';
+
+                    file_put_contents($mainFileFolder . $fileDir . $fileName, base64_decode($image));
+
+                    mysqli_query($dbconn, "insert into pictures values({$id->ratings}, {$id->monuments}, 1, '$fileDir$fileName');");
+                } else {
+                    $file = substr($image, 27);
+
+                    mysqli_query($dbconn, "insert into pictures values({$id->ratings}, {$id->monuments}, 1, '$file');");
+                }
+            }
         }
 
         foreach ($temp_db->tables as $table) {
@@ -67,6 +86,25 @@ function setDataToTables($points)
                 $id->ratings++;
                 mysqli_query($dbconn, "insert into ratings values({$id->ratings}, {$id->tables}, 2, '{$ratingObj->ip}', {$ratingObj->rating});");
             }
+
+            foreach ($table->images as $key => $image) {
+                if (substr($image, 0, 27) !== 'http://localhost/map/media/') {
+                    $id->pictures++;
+                    $mainFileFolder = '../map/media/';
+                    $fileDir = '1-' . $id->tables . '_';
+
+                    date_default_timezone_set('Europe/Minsk');
+                    $fileName = date('m_d_Y-h:i:s_a', time()) . '_' . md5($id->pictures + $key)  . '.jpg';
+
+                    file_put_contents($mainFileFolder . $fileDir . $fileName, base64_decode($image));
+
+                    mysqli_query($dbconn, "insert into pictures values({$id->ratings}, {$id->tables}, 2, '$fileDir$fileName');");
+                } else {
+                    $file = substr($image, 27);
+
+                    mysqli_query($dbconn, "insert into pictures values({$id->ratings}, {$id->tables}, 2, '$file');");
+                }
+            }
         }
 
         foreach ($temp_db->streets as $street) {
@@ -86,6 +124,25 @@ function setDataToTables($points)
             foreach ($street->ratingArray as $ratingObj) {
                 $id->ratings++;
                 mysqli_query($dbconn, "insert into ratings values({$id->ratings}, {$id->streets}, 3, '{$ratingObj->ip}', {$ratingObj->rating});");
+            }
+
+            foreach ($street->images as $key => $image) {
+                if (substr($image, 0, 27) !== 'http://localhost/map/media/') {
+                    $id->pictures++;
+                    $mainFileFolder = '../map/media/';
+                    $fileDir = '1-' . $id->streets . '_';
+
+                    date_default_timezone_set('Europe/Minsk');
+                    $fileName = date('m_d_Y-h:i:s_a', time()) . '_' . md5($id->pictures + $key)  . '.jpg';
+
+                    file_put_contents($mainFileFolder . $fileDir . $fileName, base64_decode($image));
+
+                    mysqli_query($dbconn, "insert into pictures values({$id->ratings}, {$id->streets}, 3, '$fileDir$fileName');");
+                } else {
+                    $file = substr($image, 27);
+
+                    mysqli_query($dbconn, "insert into pictures values({$id->ratings}, {$id->streets}, 3, '$file');");
+                }
             }
         }
 
